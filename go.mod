@@ -1,4 +1,4 @@
-module github.com/sfomuseum/go-sfomuseum-collection-api
+module github.com/sfomuseum/go-sfomuseum-api
 
 go 1.18
 

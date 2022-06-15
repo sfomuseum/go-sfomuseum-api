@@ -34,26 +34,22 @@ func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 		return nil, fmt.Errorf("Failed to parse URI, %w", err)
 	}
 
+	var api_endpoint string
+
+	switch u.Host {
+	case "collection":
+		api_endpoint = COLLECTION_ENDPOINT
+	case "millsfield":
+		api_endpoint = MILLSFIELD_ENDPOINT
+	default:
+		api_endpoint = fmt.Sprintf("https://%s/%s", u.Host, u.Path)
+	}
+
 	http_client := &http.Client{}
 
 	q := u.Query()
 
 	access_token := q.Get("access_token")
-
-	api_endpoint := API_ENDPOINT
-
-	endpoint := q.Get("endpoint")
-
-	if endpoint != "" {
-
-		_, err := url.Parse(endpoint)
-
-		if err != nil {
-			return nil, fmt.Errorf("Failed to parse custom endpoint URI, %w", err)
-		}
-
-		api_endpoint = endpoint
-	}
 
 	cl := &OAuth2Client{
 		http_client:  http_client,

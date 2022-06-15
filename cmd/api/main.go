@@ -11,7 +11,7 @@ import (
 	"flag"
 	_ "fmt"
 	"github.com/sfomuseum/go-flags/multi"
-	"github.com/sfomuseum/go-sfomuseum-collection-api/client"
+	"github.com/sfomuseum/go-sfomuseum-api/client"
 	"github.com/sfomuseum/runtimevar"
 	"io"
 	"log"
@@ -22,7 +22,7 @@ import (
 
 func main() {
 
-	api_client_uri := flag.String("api-client-uri", "oauth2://?access_token={ACCESS_TOKEN}", "")
+	api_client_uri := flag.String("api-client-uri", "oauth2://collection?access_token={ACCESS_TOKEN}", "")
 	access_token_uri := flag.String("access-token-api", "", "")
 
 	var params multi.KeyValueString
