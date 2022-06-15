@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/whosonfirst/go-ioutil"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 )
@@ -20,9 +21,9 @@ func init() {
 }
 
 type OAuth2Client struct {
-	http_client        *http.Client
-	api_endpoint       *url.URL
-	access_token        string
+	http_client  *http.Client
+	api_endpoint string
+	access_token string
 }
 
 func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
@@ -30,18 +31,34 @@ func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 	u, err := url.Parse(uri)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Failed to parse URI, %w", err)
 	}
+
+	http_client := &http.Client{}
 
 	q := u.Query()
 
 	access_token := q.Get("access_token")
-	
-	http_client := &http.Client{}
+
+	api_endpoint := API_ENDPOINT
+
+	endpoint := q.Get("endpoint")
+
+	if endpoint != "" {
+
+		_, err := url.Parse(endpoint)
+
+		if err != nil {
+			return nil, fmt.Errorf("Failed to parse custom endpoint URI, %w", err)
+		}
+
+		api_endpoint = endpoint
+	}
 
 	cl := &OAuth2Client{
-		http_client:     http_client,
+		http_client:  http_client,
 		access_token: access_token,
+		api_endpoint: api_endpoint,
 	}
 
 	return cl, nil
@@ -49,10 +66,10 @@ func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 
 func (cl *OAuth2Client) ExecuteMethod(ctx context.Context, args *url.Values) (io.ReadSeekCloser, error) {
 
-	endpoint, err := url.Parse(API_ENDPOINT)
+	endpoint, err := url.Parse(cl.api_endpoint)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Failed to parse endpoint URI, %w", err)
 	}
 
 	http_method := "GET"
@@ -62,6 +79,8 @@ func (cl *OAuth2Client) ExecuteMethod(ctx context.Context, args *url.Values) (io
 	}
 
 	endpoint.RawQuery = args.Encode()
+
+	log.Println(endpoint.String())
 
 	req, err := http.NewRequest(http_method, endpoint.String(), nil)
 

@@ -3,14 +3,13 @@ package client
 import (
 	"context"
 	"fmt"
+	"github.com/sfomuseum/go-sfomuseum-collection-api/response"
 	"io"
 	"net/url"
 	"strconv"
-	"github.com/sfomuseum/go-sfomuseum-collection-api/response"
 )
 
-
-const API_ENDPOINT string = "https://collection.sfomuseum.org/services/rest"
+const API_ENDPOINT string = "https://collection.sfomuseum.org/api/rest"
 
 type Client interface {
 	ExecuteMethod(context.Context, *url.Values) (io.ReadSeekCloser, error)
