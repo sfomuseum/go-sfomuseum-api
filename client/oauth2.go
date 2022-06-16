@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/whosonfirst/go-ioutil"
 	"io"
-	"log"
+	_ "log"
 	"net/http"
 	"net/url"
 )
@@ -75,8 +75,6 @@ func (cl *OAuth2Client) ExecuteMethod(ctx context.Context, args *url.Values) (io
 	}
 
 	endpoint.RawQuery = args.Encode()
-
-	log.Println(endpoint.String())
 
 	req, err := http.NewRequest(http_method, endpoint.String(), nil)
 
