@@ -23,7 +23,7 @@ import (
 func main() {
 
 	api_client_uri := flag.String("api-client-uri", "oauth2://collection?access_token={ACCESS_TOKEN}", "")
-	access_token_uri := flag.String("access-token-api", "", "")
+	access_token_uri := flag.String("access-token-uri", "", "A valid gocloud.dev/runtime variable URI containing a value to replace '{ACCESS_TOKEN}' in the -api-client-uri flag.")
 
 	var params multi.KeyValueString
 	flag.Var(&params, "param", "")
