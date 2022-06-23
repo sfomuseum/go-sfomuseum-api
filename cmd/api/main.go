@@ -1,3 +1,4 @@
+// api is a command-line tool for invoking a SFO Museum API emitting the results to STDOUT.
 package main
 
 import (
@@ -9,7 +10,7 @@ import (
 import (
 	"context"
 	"flag"
-	_ "fmt"
+	"fmt"
 	"github.com/sfomuseum/go-flags/multi"
 	"github.com/sfomuseum/go-sfomuseum-api/client"
 	"github.com/sfomuseum/runtimevar"
@@ -26,7 +27,14 @@ func main() {
 	access_token_uri := flag.String("access-token-uri", "", "A valid gocloud.dev/runtime variable URI containing a value to replace '{ACCESS_TOKEN}' in the -api-client-uri flag.")
 
 	var params multi.KeyValueString
-	flag.Var(&params, "param", "")
+	flag.Var(&params, "param", "One or more KEY=VALUE SFO Museum API parameters")
+
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "api is a command-line tool for invoking a SFO Museum API emitting the results to STDOUT.\n\n")
+		fmt.Fprintf(os.Stderr, "Usage:\n\t %s [options]\n\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "Valid options are:\n")
+		flag.PrintDefaults()
+	}
 
 	flag.Parse()
 
@@ -46,7 +54,7 @@ func main() {
 	cl, err := client.NewClient(ctx, *api_client_uri)
 
 	if err != nil {
-		log.Fatalf("Failed to create new API client, %w", err)
+		log.Fatalf("Failed to create new API client, %v", err)
 	}
 
 	q := &url.Values{}

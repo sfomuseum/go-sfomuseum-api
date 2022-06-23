@@ -28,25 +28,25 @@ func DerivePagination(ctx context.Context, fh io.ReadSeekCloser) (*Pagination, e
 		return nil, err
 	}
 
-	page_rsp := gjson.GetBytes(body, "*.page")
+	page_rsp := gjson.GetBytes(body, "page")
 
 	if !page_rsp.Exists() {
 		return nil, fmt.Errorf("Unable to determine pagination properties (page) in response")
 	}
 
-	pages_rsp := gjson.GetBytes(body, "*.pages")
+	pages_rsp := gjson.GetBytes(body, "pages")
 
 	if !pages_rsp.Exists() {
 		return nil, fmt.Errorf("Unable to determine pagination properties (pages) in response")
 	}
 
-	perpage_rsp := gjson.GetBytes(body, "*.perpage")
+	perpage_rsp := gjson.GetBytes(body, "per_page")
 
 	if !perpage_rsp.Exists() {
 		return nil, fmt.Errorf("Unable to determine pagination properties (perpage) in response")
 	}
 
-	total_rsp := gjson.GetBytes(body, "*.total")
+	total_rsp := gjson.GetBytes(body, "total")
 
 	if !total_rsp.Exists() {
 		return nil, fmt.Errorf("Unable to determine pagination properties (total) in response")

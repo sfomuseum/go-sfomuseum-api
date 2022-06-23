@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+// clients is a `aaronland/go-roster.Roster` instance used to maintain a list of registered `webhookd.WebhookDispatcher` initialization functions.
 var clients roster.Roster
 
 // The initialization function signature for implementation of the Client interface.
@@ -66,9 +67,10 @@ func Schemes() []string {
 
 // Create a new instance of the Client interface. Client instances are created by
 // passing in a context.Context instance and a URI string. The form and substance of
-// URI strings are specific to their implementations. For example to create a OAuth1Client
-// you would write:
-// cl, err := client.NewClient(ctx, "oauth1://?consumer_key={KEY}&consumer_secret={SECRET}")
+// URI strings are specific to their implementations.
+//
+// For example to create a OAuth2Client you might write:
+// 	cl, _ := client.NewClient(ctx, "oauth2://collection?access_token={TOKEN}")
 func NewClient(ctx context.Context, uri string) (Client, error) {
 
 	// To account for things that might be gocloud.dev/runtimevar-encoded

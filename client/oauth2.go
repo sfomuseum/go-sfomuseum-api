@@ -20,12 +20,28 @@ func init() {
 	}
 }
 
+// OAuth2Client implements the `Client` interface for API endpoints that require OAuth2 access token authentication.
 type OAuth2Client struct {
-	http_client  *http.Client
+	Client
+	// http_client is the underlying net/http client used to perform API requests.
+	http_client *http.Client
+	// api_endpoint is the URL of the API endpoint.
 	api_endpoint string
+	// access_token is the OAuth2 access token to append to API requests.
 	access_token string
 }
 
+// NewOAuth2Client creates a new `OAuth2Client` instance configured by 'uri' which
+// is expected to take the form of:
+//
+//	oauth2://{HOST}/{PATH}?{PARAMETERS}
+//
+// Where {PARAMETERS} is:
+// - `?access_token=` A valid OAuth2 access token.
+//
+// If {HOST} is either "collection" or "millsfield" then the api endpoint will be
+// the value of the `COLLECTION_ENDPOINT` and `MILLSFIELD_ENDPOINT` constant variables
+// respectively.
 func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 
 	u, err := url.Parse(uri)
@@ -60,6 +76,7 @@ func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 	return cl, nil
 }
 
+// ExecuteMethod will perform an API request derived from 'args'.
 func (cl *OAuth2Client) ExecuteMethod(ctx context.Context, args *url.Values) (io.ReadSeekCloser, error) {
 
 	endpoint, err := url.Parse(cl.api_endpoint)
@@ -82,10 +99,11 @@ func (cl *OAuth2Client) ExecuteMethod(ctx context.Context, args *url.Values) (io
 		return nil, err
 	}
 
-	return cl.call(ctx, req)
+	return cl.executeRequest(ctx, req)
 }
 
-func (cl *OAuth2Client) call(ctx context.Context, req *http.Request) (io.ReadSeekCloser, error) {
+// executeRequest will perform an API request derived from 'req'.
+func (cl *OAuth2Client) executeRequest(ctx context.Context, req *http.Request) (io.ReadSeekCloser, error) {
 
 	req = req.WithContext(ctx)
 

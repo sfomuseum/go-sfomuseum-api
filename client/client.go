@@ -1,3 +1,4 @@
+// package client provides methods for SFO Museum API clients.
 package client
 
 import (
@@ -9,16 +10,24 @@ import (
 	"strconv"
 )
 
+// COLLECTION_ENDPOINT is the default endpoint for the collection.sfomuseum.org API.
 const COLLECTION_ENDPOINT string = "https://collection.sfomuseum.org/api/rest"
 
+// MILLSFIELD_ENDPOINT is the default endpoint for the millsfield.sfomuseum.org API.
 const MILLSFIELD_ENDPOINT string = "https://millsfield.sfomuseum.org/api/rest"
 
+// type Client is an interface for SFO Museum API client implementations.
 type Client interface {
+	// ExecuteMethod performs an API method request.
 	ExecuteMethod(context.Context, *url.Values) (io.ReadSeekCloser, error)
 }
 
+// ExecuteMethodPaginatedCallback is a custom callback function to be invoked by every response item
+// seen by the `ExecuteMethodPaginatedWithClient` method.
 type ExecuteMethodPaginatedCallback func(context.Context, io.ReadSeekCloser, error) error
 
+// ExecuteMethodPaginatedWithClient performs as many paginated API requests for a given method to yield
+// all the result. Each result is passed to the 'cb' callback method for final processing.
 func ExecuteMethodPaginatedWithClient(ctx context.Context, cl Client, args *url.Values, cb ExecuteMethodPaginatedCallback) error {
 
 	page := 1
