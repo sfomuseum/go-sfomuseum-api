@@ -54,7 +54,7 @@ func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 	var api_endpoint string
 
 	switch u.Host {
-	case "api":
+	case "", "api":
 		api_endpoint = API_ENDPOINT
 	default:
 		api_endpoint = fmt.Sprintf("https://%s/%s", u.Host, u.Path)

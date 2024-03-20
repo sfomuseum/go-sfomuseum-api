@@ -23,7 +23,7 @@ Valid options are:
   -access-token-uri string
     	A valid gocloud.dev/runtime variable URI containing a value to replace '{ACCESS_TOKEN}' in the -api-client-uri flag.
   -api-client-uri string
-    	 (default "oauth2://collection?access_token={ACCESS_TOKEN}")
+    	 (default "oauth2://?access_token={ACCESS_TOKEN}")
   -param value
     	One or more KEY=VALUE SFO Museum API parameters
 ```
