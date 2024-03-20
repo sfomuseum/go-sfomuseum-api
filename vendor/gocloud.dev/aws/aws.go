@@ -77,10 +77,10 @@ func (co ConfigOverrider) ClientConfig(serviceName string, cfgs ...*aws.Config) 
 // ConfigFromURLParams.
 //
 // The following query options are supported:
-//  - region: The AWS region for requests; sets aws.Config.Region.
-//  - endpoint: The endpoint URL (hostname only or fully qualified URI); sets aws.Config.Endpoint.
-//  - disableSSL: A value of "true" disables SSL when sending requests; sets aws.Config.DisableSSL.
-//  - s3ForcePathStyle: A value of "true" forces the request to use path-style addressing; sets aws.Config.S3ForcePathStyle.
+//   - region: The AWS region for requests; sets aws.Config.Region.
+//   - endpoint: The endpoint URL (hostname only or fully qualified URI); sets aws.Config.Endpoint.
+//   - disableSSL: A value of "true" disables SSL when sending requests; sets aws.Config.DisableSSL.
+//   - s3ForcePathStyle: A value of "true" forces the request to use path-style addressing; sets aws.Config.S3ForcePathStyle.
 func ConfigFromURLParams(q url.Values) (*aws.Config, error) {
 	var cfg aws.Config
 	for param, values := range q {
@@ -119,8 +119,8 @@ func ConfigFromURLParams(q url.Values) (*aws.Config, error) {
 // parameters it knows about
 //
 // The following query options are supported:
-//  - profile: The AWS profile to use from the AWS configs (shared config file and
-//             shared credentials file)
+//   - profile: The AWS profile to use from the AWS configs (shared config file and
+//     shared credentials file)
 func NewSessionFromURLParams(q url.Values) (*session.Session, url.Values, error) {
 	// always enable shared config (~/.aws/config by default)
 	opts := session.Options{SharedConfigState: session.SharedConfigEnable}
@@ -147,7 +147,7 @@ func NewSessionFromURLParams(q url.Values) (*session.Session, url.Values, error)
 // should use the AWS SDK v2.
 //
 // "awssdk=v1" will force V1.
-// "asssdk=v2" will force V2.
+// "awssdk=v2" will force V2.
 // No "awssdk" parameter (or any other value) will return the default, currently V1.
 // Note that the default may change in the future.
 func UseV2(q url.Values) bool {
@@ -175,8 +175,9 @@ func NewDefaultV2Config(ctx context.Context) (awsv2.Config, error) {
 // V2ConfigFromURLParams.
 //
 // The following query options are supported:
-//  - region: The AWS region for requests; sets WithRegion.
-//  - profile: The shared config profile to use; sets SharedConfigProfile.
+//   - region: The AWS region for requests; sets WithRegion.
+//   - profile: The shared config profile to use; sets SharedConfigProfile.
+//   - endpoint: The AWS service endpoint to send HTTP request.
 func V2ConfigFromURLParams(ctx context.Context, q url.Values) (awsv2.Config, error) {
 	var opts []func(*awsv2cfg.LoadOptions) error
 	for param, values := range q {
@@ -184,6 +185,16 @@ func V2ConfigFromURLParams(ctx context.Context, q url.Values) (awsv2.Config, err
 		switch param {
 		case "region":
 			opts = append(opts, awsv2cfg.WithRegion(value))
+		case "endpoint":
+			customResolver := awsv2.EndpointResolverWithOptionsFunc(
+				func(service, region string, options ...interface{}) (awsv2.Endpoint, error) {
+					return awsv2.Endpoint{
+						PartitionID:   "aws",
+						URL:           value,
+						SigningRegion: region,
+					}, nil
+				})
+			opts = append(opts, awsv2cfg.WithEndpointResolverWithOptions(customResolver))
 		case "profile":
 			opts = append(opts, awsv2cfg.WithSharedConfigProfile(value))
 		case "awssdk":

@@ -4,17 +4,15 @@ package client
 import (
 	"context"
 	"fmt"
-	"github.com/sfomuseum/go-sfomuseum-api/response"
 	"io"
 	"net/url"
 	"strconv"
+
+	"github.com/sfomuseum/go-sfomuseum-api/response"
 )
 
-// COLLECTION_ENDPOINT is the default endpoint for the collection.sfomuseum.org API.
-const COLLECTION_ENDPOINT string = "https://collection.sfomuseum.org/api/rest"
-
-// MILLSFIELD_ENDPOINT is the default endpoint for the millsfield.sfomuseum.org API.
-const MILLSFIELD_ENDPOINT string = "https://millsfield.sfomuseum.org/api/rest"
+// API_ENDPOINT is the default endpoint for the api.sfomuseum.org API.
+const API_ENDPOINT string = "https://api.sfomuseum.org/rest"
 
 // type Client is an interface for SFO Museum API client implementations.
 type Client interface {

@@ -3,10 +3,11 @@ package client
 import (
 	"context"
 	"fmt"
-	"github.com/aaronland/go-roster"
 	"net/url"
 	"sort"
 	"strings"
+
+	"github.com/aaronland/go-roster"
 )
 
 // clients is a `aaronland/go-roster.Roster` instance used to maintain a list of registered `webhookd.WebhookDispatcher` initialization functions.
@@ -70,7 +71,8 @@ func Schemes() []string {
 // URI strings are specific to their implementations.
 //
 // For example to create a OAuth2Client you might write:
-// 	cl, _ := client.NewClient(ctx, "oauth2://collection?access_token={TOKEN}")
+//
+//	cl, _ := client.NewClient(ctx, "oauth2://collection?access_token={TOKEN}")
 func NewClient(ctx context.Context, uri string) (Client, error) {
 
 	// To account for things that might be gocloud.dev/runtimevar-encoded

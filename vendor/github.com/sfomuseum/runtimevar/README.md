@@ -15,6 +15,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	
 	"github.com/sfomuseum/runtimevar"
 	_ "gocloud.dev/runtimevar/awsparamstore"
 	_ "gocloud.dev/runtimevar/constantvar"
@@ -36,17 +37,28 @@ func main() {
 
 ## Tools
 
+```
+$> make cli
+go build -mod vendor -ldflags="-s -w" -o bin/runtimevar cmd/runtimevar/main.go
+```
+
 ### runtimevar
+
+```
+$> ./bin/runtimevar -h
+Usage of ./bin/runtimevar:
+  -timeout int
+    	The maximum number of second in which a variable can be resolved. If 0 no timeout is applied.
+```
 
 ```
 $> go run cmd/runtimevar/main.go 'constant://?val=hello+world'
 hello world
 ```
 
-The following Go Cloud `runtimevar` services are supported by the runtimevar tool:
+The following Go Cloud `runtimevar` services are supported by the runtimevar tool by default:
 
 * [AWS Parameter Store](https://gocloud.dev/howto/runtimevar/#awsps)
-* [Blob](https://gocloud.dev/howto/runtimevar/#blob)
 * [Local](https://gocloud.dev/howto/runtimevar/#local)
 
 ### AWS Parameter Store

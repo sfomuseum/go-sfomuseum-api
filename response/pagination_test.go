@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"context"
 	_ "embed"
-	"github.com/whosonfirst/go-ioutil"
 	"testing"
+
+	"github.com/whosonfirst/go-ioutil"
 )
 
 //go:embed response.json

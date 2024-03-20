@@ -11,14 +11,15 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/sfomuseum/go-flags/multi"
-	"github.com/sfomuseum/go-sfomuseum-api/client"
-	"github.com/sfomuseum/runtimevar"
 	"io"
 	"log"
 	"net/url"
 	"os"
 	"strings"
+
+	"github.com/sfomuseum/go-flags/multi"
+	"github.com/sfomuseum/go-sfomuseum-api/client"
+	"github.com/sfomuseum/runtimevar"
 )
 
 func main() {

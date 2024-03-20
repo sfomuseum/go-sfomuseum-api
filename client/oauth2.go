@@ -3,11 +3,12 @@ package client
 import (
 	"context"
 	"fmt"
-	"github.com/whosonfirst/go-ioutil"
 	"io"
 	_ "log"
 	"net/http"
 	"net/url"
+
+	"github.com/whosonfirst/go-ioutil"
 )
 
 func init() {
@@ -53,10 +54,8 @@ func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 	var api_endpoint string
 
 	switch u.Host {
-	case "collection":
-		api_endpoint = COLLECTION_ENDPOINT
-	case "millsfield":
-		api_endpoint = MILLSFIELD_ENDPOINT
+	case "api":
+		api_endpoint = API_ENDPOINT
 	default:
 		api_endpoint = fmt.Sprintf("https://%s/%s", u.Host, u.Path)
 	}
