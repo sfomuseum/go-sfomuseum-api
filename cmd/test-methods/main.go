@@ -29,8 +29,8 @@ func main() {
 	api_client_uri := flag.String("api-client-uri", "oauth2://?access_token={ACCESS_TOKEN}", "")
 	access_token_uri := flag.String("access-token-uri", "", "A valid gocloud.dev/runtime variable URI containing a value to replace '{ACCESS_TOKEN}' in the -api-client-uri flag.")
 
-	var params multi.KeyValueString
-	flag.Var(&params, "param", "One or more KEY=VALUE SFO Museum API parameters")
+	var skip multi.MultiString
+	flag.Var(&skip, "skip", "...")
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "api is a command-line tool for invoking a SFO Museum API emitting the results to STDOUT.\n\n")
@@ -69,16 +69,49 @@ func main() {
 		log.Fatalf("Failed to execute API method, %v", err)
 	}
 
-	var methods []*response.Method
+	type MethodsResponse struct {
+		Methods []*response.Method `json:"methods"`
+	}
+
+	var methods_rsp *MethodsResponse
 
 	dec := json.NewDecoder(rsp)
-	err = dec.Decode(&methods)
+	err = dec.Decode(&methods_rsp)
 
 	if err != nil {
 		log.Fatalf("Failed to decode methods, %v", err)
 	}
 
-	for _, m := range methods {
-		slog.Info(m.Name)
+	for _, m := range methods_rsp.Methods {
+
+		for _, prefix := range skip {
+			if strings.HasPrefix(m.Name, prefix) {
+				slog.Info("Method matches skip prefix, skipping", "method", m.Name, "prefix", prefix)
+				continue
+			}
+		}
+
+		if m.Method != "GET" {
+			slog.Info("HTTP method is not GET, skipping", "method", m.Name, "verb", m.Method)
+			continue
+		}
+
+		params := &url.Values{}
+		params.Set("method", m.Name)
+
+		for _, p := range m.Parameters {
+			params.Set(p.Name, fmt.Sprintf("%v", p.Example))
+		}
+
+		slog.Info("Execute method", "method", m.Method, "parameters", params.Encode())
+
+		_, err := cl.ExecuteMethod(ctx, params)
+
+		if err != nil {
+			slog.Error("Failed to execute method", "method", m.Name, "error", err)
+			continue
+		}
+
+		slog.Debug("Method successful", "method", m.Name)
 	}
 }

@@ -2,14 +2,14 @@ package client
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"io"
 	_ "log"
 	"net/http"
 	"net/url"
-	"crypto/tls"
 	"strconv"
-	
+
 	"github.com/whosonfirst/go-ioutil"
 )
 
@@ -42,7 +42,6 @@ type OAuth2Client struct {
 // Where {PARAMETERS} is:
 // - `?access_token={TOKEN}` A valid OAuth2 access token.
 // - `?insecure={BOOLEAN}` A boolean flag signaling that TLS verification will be skipped.
-//
 func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 
 	u, err := url.Parse(uri)
@@ -61,7 +60,7 @@ func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 	}
 
 	q := u.Query()
-	
+
 	http_client := &http.Client{}
 
 	if q.Has("insecure") {
@@ -77,17 +76,17 @@ func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 			config := &tls.Config{
 				InsecureSkipVerify: true,
 			}
-			
+
 			tr := &http.Transport{
 				TLSClientConfig: config,
 			}
-			
+
 			http_client = &http.Client{
 				Transport: tr,
 			}
 		}
 	}
-	
+
 	access_token := q.Get("access_token")
 
 	cl := &OAuth2Client{
