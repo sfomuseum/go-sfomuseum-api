@@ -103,15 +103,15 @@ func main() {
 			params.Set(p.Name, fmt.Sprintf("%v", p.Example))
 		}
 
-		slog.Info("Execute method", "method", m.RequestMethod, "parameters", params.Encode())
-
+		// slog.Debug("Execute method", "method", m.RequestMethod, "parameters", params.Encode())
+		
 		_, err := cl.ExecuteMethod(ctx, params)
 
 		if err != nil {
-			slog.Error("Failed to execute method", "method", m.Name, "error", err)
+			slog.Error("Failed to execute method", "method", m.Name, "parameters", params.Encode(), "error", err)
 			continue
 		}
 
-		slog.Debug("Method successful", "method", m.Name)
+		slog.Debug("Method successful", "method", m.Name, "parameters", params.Encode())
 	}
 }
