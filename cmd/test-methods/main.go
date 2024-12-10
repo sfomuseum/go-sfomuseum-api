@@ -30,10 +30,10 @@ func main() {
 	access_token_uri := flag.String("access-token-uri", "", "A valid gocloud.dev/runtime variable URI containing a value to replace '{ACCESS_TOKEN}' in the -api-client-uri flag.")
 
 	var skip multi.MultiString
-	flag.Var(&skip, "skip", "...")
+	flag.Var(&skip, "skip", "Zero or more matching prefixes for method names to skip.")
 
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "api is a command-line tool for invoking a SFO Museum API emitting the results to STDOUT.\n\n")
+		fmt.Fprintf(os.Stderr, "test-methods is a command-line tool...\n\n")
 		fmt.Fprintf(os.Stderr, "Usage:\n\t %s [options]\n\n", os.Args[0])
 		fmt.Fprintf(os.Stderr, "Valid options are:\n")
 		flag.PrintDefaults()
@@ -84,11 +84,18 @@ func main() {
 
 	for _, m := range methods_rsp.Methods {
 
+		skip_method := false
+
 		for _, prefix := range skip {
 			if strings.HasPrefix(m.Name, prefix) {
 				slog.Info("Method matches skip prefix, skipping", "method", m.Name, "prefix", prefix)
-				continue
+				skip_method = true
+				break
 			}
+		}
+
+		if skip_method {
+			continue
 		}
 
 		if m.RequestMethod != "GET" {
@@ -100,16 +107,19 @@ func main() {
 		params.Set("method", m.Name)
 
 		for _, p := range m.Parameters {
-			params.Set(p.Name, fmt.Sprintf("%v", p.Example))
+			params.Set(p.Name, fmt.Sprintf("%s", p.Example))
 		}
 
 		// slog.Debug("Execute method", "method", m.RequestMethod, "parameters", params.Encode())
-		
+
 		_, err := cl.ExecuteMethod(ctx, params)
 
 		if err != nil {
-			slog.Error("Failed to execute method", "method", m.Name, "parameters", params.Encode(), "error", err)
-			continue
+
+			if m.Name != "api.test.error" {
+				slog.Error("Failed to execute method", "method", m.Name, "parameters", params.Encode(), "error", err)
+				continue
+			}
 		}
 
 		slog.Debug("Method successful", "method", m.Name, "parameters", params.Encode())
