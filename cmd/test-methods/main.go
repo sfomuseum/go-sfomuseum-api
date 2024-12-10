@@ -91,8 +91,8 @@ func main() {
 			}
 		}
 
-		if m.Method != "GET" {
-			slog.Info("HTTP method is not GET, skipping", "method", m.Name, "verb", m.Method)
+		if m.RequestMethod != "GET" {
+			slog.Info("HTTP method is not GET, skipping", "method", m.Name, "verb", m.RequestMethod)
 			continue
 		}
 
@@ -103,7 +103,7 @@ func main() {
 			params.Set(p.Name, fmt.Sprintf("%v", p.Example))
 		}
 
-		slog.Info("Execute method", "method", m.Method, "parameters", params.Encode())
+		slog.Info("Execute method", "method", m.RequestMethod, "parameters", params.Encode())
 
 		_, err := cl.ExecuteMethod(ctx, params)
 

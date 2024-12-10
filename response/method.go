@@ -14,7 +14,7 @@ type Error struct {
 
 type Method struct {
 	Name                   string      `json:"name"`
-	Method                 string      `json:"method"`
+	RequestMethod          string      `json:"request_method"`
 	Description            string      `json:"description"`
 	RequiresAuthentication int         `json:"requires_auth"`
 	Parameters             []Parameter `json:"parameters"`
