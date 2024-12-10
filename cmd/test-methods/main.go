@@ -1,11 +1,13 @@
-// api is a command-line tool for invoking a SFO Museum API emitting the results to STDOUT.
 package main
 
-import (
-	_ "gocloud.dev/runtimevar/awsparamstore"
-	_ "gocloud.dev/runtimevar/constantvar"
-	_ "gocloud.dev/runtimevar/filevar"
-)
+/*
+
+go run cmd/test-methods/main.go \
+	-api-client-uri 'oauth2://?access_token={TOKEN}' \
+	-skip sfomuseum.you.shoebox \
+	-break-on-error
+
+*/
 
 import (
 	"context"
@@ -19,6 +21,10 @@ import (
 	"os"
 	"strings"
 
+	_ "gocloud.dev/runtimevar/awsparamstore"
+	_ "gocloud.dev/runtimevar/constantvar"
+	_ "gocloud.dev/runtimevar/filevar"
+	
 	"github.com/sfomuseum/go-flags/multi"
 	"github.com/sfomuseum/go-sfomuseum-api/client"
 	"github.com/sfomuseum/go-sfomuseum-api/response"
