@@ -2,11 +2,13 @@ package client
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"io"
 	_ "log"
 	"net/http"
 	"net/url"
+	"strconv"
 
 	"github.com/whosonfirst/go-ioutil"
 )
@@ -38,11 +40,8 @@ type OAuth2Client struct {
 //	oauth2://{HOST}/{PATH}?{PARAMETERS}
 //
 // Where {PARAMETERS} is:
-// - `?access_token=` A valid OAuth2 access token.
-//
-// If {HOST} is either "collection" or "millsfield" then the api endpoint will be
-// the value of the `COLLECTION_ENDPOINT` and `MILLSFIELD_ENDPOINT` constant variables
-// respectively.
+// - `?access_token={TOKEN}` A valid OAuth2 access token.
+// - `?insecure={BOOLEAN}` A boolean flag signaling that TLS verification will be skipped.
 func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 
 	u, err := url.Parse(uri)
@@ -60,9 +59,33 @@ func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 		api_endpoint = fmt.Sprintf("https://%s/%s", u.Host, u.Path)
 	}
 
+	q := u.Query()
+
 	http_client := &http.Client{}
 
-	q := u.Query()
+	if q.Has("insecure") {
+
+		v, err := strconv.ParseBool(q.Get("insecure"))
+
+		if err != nil {
+			return nil, fmt.Errorf("Failed to parse ?insecure=, %w", err)
+		}
+
+		if v {
+
+			config := &tls.Config{
+				InsecureSkipVerify: true,
+			}
+
+			tr := &http.Transport{
+				TLSClientConfig: config,
+			}
+
+			http_client = &http.Client{
+				Transport: tr,
+			}
+		}
+	}
 
 	access_token := q.Get("access_token")
 
