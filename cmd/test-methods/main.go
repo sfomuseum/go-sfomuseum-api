@@ -151,7 +151,18 @@ func main() {
 		params.Set("method", m.Name)
 
 		for _, p := range m.Parameters {
-			params.Set(p.Name, fmt.Sprintf("%s", p.Example))
+
+			switch m.Name {
+			case "sfomuseum.collection.objects.search":
+				
+				if p.Required {
+					params.Set(p.Name, fmt.Sprintf("%s", p.Example))
+				}
+				
+			default:
+				params.Set(p.Name, fmt.Sprintf("%s", p.Example))
+			}
+			
 		}
 
 		// slog.Debug("Execute method", "method", m.RequestMethod, "parameters", params.Encode())
