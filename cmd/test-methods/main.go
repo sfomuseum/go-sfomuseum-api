@@ -24,7 +24,7 @@ import (
 	_ "gocloud.dev/runtimevar/awsparamstore"
 	_ "gocloud.dev/runtimevar/constantvar"
 	_ "gocloud.dev/runtimevar/filevar"
-	
+
 	"github.com/sfomuseum/go-flags/multi"
 	"github.com/sfomuseum/go-sfomuseum-api/client"
 	"github.com/sfomuseum/go-sfomuseum-api/response"
@@ -154,15 +154,15 @@ func main() {
 
 			switch m.Name {
 			case "sfomuseum.collection.objects.search":
-				
+
 				if p.Required {
 					params.Set(p.Name, fmt.Sprintf("%s", p.Example))
 				}
-				
+
 			default:
 				params.Set(p.Name, fmt.Sprintf("%s", p.Example))
 			}
-			
+
 		}
 
 		// slog.Debug("Execute method", "method", m.RequestMethod, "parameters", params.Encode())
