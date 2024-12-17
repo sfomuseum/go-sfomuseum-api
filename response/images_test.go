@@ -22,6 +22,7 @@ func TestImageCaptionResponse(t *testing.T) {
 	expected := `postcard: American Airlines, Canada
 c. 1950
 Gift of Thomas G. Dragges
+Collection of SFO Museum
 2015.166.0309`
 
 	var caption_r *ImageCaptionResponse
