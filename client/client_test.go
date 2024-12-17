@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"net/http"
 	"net/url"
 	"testing"
 )
@@ -38,7 +39,7 @@ func TestExecuteMethodPaginated(t *testing.T) {
 		return nil
 	}
 
-	err = ExecuteMethodPaginatedWithClient(ctx, cl, args, cb)
+	err = ExecuteMethodPaginatedWithClient(ctx, cl, http.MethodGet, args, cb)
 
 	if err != nil {
 		t.Fatalf("Failed to execute method paginated, %v", err)

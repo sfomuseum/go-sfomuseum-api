@@ -24,11 +24,15 @@ import (
 
 func main() {
 
+	var verb string
+
 	api_client_uri := flag.String("api-client-uri", "oauth2://?access_token={ACCESS_TOKEN}", "")
 	access_token_uri := flag.String("access-token-uri", "", "A valid gocloud.dev/runtime variable URI containing a value to replace '{ACCESS_TOKEN}' in the -api-client-uri flag.")
 
 	var params multi.KeyValueString
 	flag.Var(&params, "param", "One or more KEY=VALUE SFO Museum API parameters")
+
+	flag.StringVar(&verb, "verb", "GET", "The HTTP verb to execute the API method with.")
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "api is a command-line tool for invoking a SFO Museum API emitting the results to STDOUT.\n\n")
@@ -64,7 +68,7 @@ func main() {
 		q.Set(kv.Key(), kv.Value().(string))
 	}
 
-	rsp, err := cl.ExecuteMethod(ctx, q)
+	rsp, err := cl.ExecuteMethod(ctx, verb, q)
 
 	if err != nil {
 		log.Fatalf("Failed to execute API method, %v", err)

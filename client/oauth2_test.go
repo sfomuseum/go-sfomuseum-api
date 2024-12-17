@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	_ "fmt"
+	"net/http"
 	"net/url"
 	"testing"
 )
@@ -39,7 +40,7 @@ func TestOAuth2ClientRoster(t *testing.T) {
 		args.Set("method", "api.test.echo")
 		args.Set("hello", "world")
 
-		rsp, err := cl.ExecuteMethod(ctx, args)
+		rsp, err := cl.ExecuteMethod(ctx, http.MethodGet, args)
 
 		if err != nil {
 			t.Fatalf("Failed to execute method, %v", err)
