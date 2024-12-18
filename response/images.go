@@ -1,7 +1,6 @@
 package response
 
 import (
-	_ "fmt"
 	"strings"
 )
 

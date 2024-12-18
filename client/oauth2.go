@@ -98,7 +98,7 @@ func NewOAuth2Client(ctx context.Context, uri string) (Client, error) {
 	return cl, nil
 }
 
-// ExecuteMethod will perform an API request derived from 'args'.
+// ExecuteMethod will perform an API request derived from 'verb' and 'args'.
 func (cl *OAuth2Client) ExecuteMethod(ctx context.Context, verb string, args *url.Values) (io.ReadSeekCloser, error) {
 
 	endpoint, err := url.Parse(cl.api_endpoint)
@@ -158,7 +158,7 @@ func (cl *OAuth2Client) executeRequest(ctx context.Context, req *http.Request) (
 	rsp, err := cl.http_client.Do(req)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Error("Failed to execute API request, %w", err)
 	}
 
 	if rsp.StatusCode != http.StatusOK {
