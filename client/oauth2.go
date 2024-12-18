@@ -111,6 +111,9 @@ func (cl *OAuth2Client) ExecuteMethod(ctx context.Context, verb string, args *ur
 		args.Set("access_token", cl.access_token)
 	}
 
+	// Note that we do `req = req.WithContext(ctx)` below so
+	// there is no need to do it here too.
+
 	var req *http.Request
 
 	switch verb {
@@ -118,7 +121,7 @@ func (cl *OAuth2Client) ExecuteMethod(ctx context.Context, verb string, args *ur
 
 		endpoint.RawQuery = args.Encode()
 
-		r, err := http.NewRequestWithContext(ctx, http.MethodGet, endpoint.String(), nil)
+		r, err := http.NewRequest(http.MethodGet, endpoint.String(), nil)
 
 		if err != nil {
 			return nil, err
@@ -130,7 +133,7 @@ func (cl *OAuth2Client) ExecuteMethod(ctx context.Context, verb string, args *ur
 
 		args_r := strings.NewReader(args.Encode())
 
-		r, err := http.NewRequestWithContext(ctx, http.MethodPost, endpoint.String(), args_r)
+		r, err := http.NewRequest(http.MethodPost, endpoint.String(), args_r)
 
 		if err != nil {
 			return nil, err

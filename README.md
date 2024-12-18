@@ -37,6 +37,8 @@ func main() {
 }
 ```
 
+_Error handling removed for the sake of brevity._
+
 ## Design
 
 The core of this package's approach to the SFO Museum API is the `ExecuteMethod` method (which is defined in the `client.Client` interface) whose signature looks like this:
