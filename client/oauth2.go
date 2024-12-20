@@ -158,7 +158,7 @@ func (cl *OAuth2Client) executeRequest(ctx context.Context, req *http.Request) (
 	rsp, err := cl.http_client.Do(req)
 
 	if err != nil {
-		return nil, fmt.Error("Failed to execute API request, %w", err)
+		return nil, fmt.Errorf("Failed to execute API request, %w", err)
 	}
 
 	if rsp.StatusCode != http.StatusOK {
