@@ -11,17 +11,20 @@ import (
 	"github.com/sfomuseum/runtimevar"
 )
 
+// RunOptions defines options and configurations to execute the commandline `api` application with.
 type RunOptions struct {
-	Verb         string
+	// The HTTP verb to execute an API method with.
+	Verb string
+	// A valid `sfomuseum/go-sfomuseum-api/client.Client` URI.
 	APIClientURI string
-	Args         *url.Values
+	// One or more query parameters to execute an API method with (at a minimum the "method" parameter is required).
+	Args *url.Values
 }
 
+// RunOptionsFromFlagSet will return a new `RunOptions` for use with the commandline `api` application derived from 'fs'.
 func RunOptionsFromFlagSet(fs *flag.FlagSet) (*RunOptions, error) {
 
 	flagset.Parse(fs)
-
-	// START OF move this in to RunWithOptions...?
 
 	if access_token_uri != "" {
 
@@ -34,8 +37,6 @@ func RunOptionsFromFlagSet(fs *flag.FlagSet) (*RunOptions, error) {
 
 		api_client_uri = strings.Replace(api_client_uri, "{ACCESS_TOKEN}", token, 1)
 	}
-
-	// END OF move this in to RunWithOptions...?
 
 	args := &url.Values{}
 

@@ -1,3 +1,5 @@
+// test-methods is a command line tool for iterating through the list of available SFO Museum API
+// methods and executing all methods which use the HTTP "GET" verb testing for a successful response.
 package main
 
 /*

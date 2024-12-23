@@ -10,11 +10,13 @@ import (
 	"github.com/sfomuseum/go-sfomuseum-api/client"
 )
 
+// Run will execute the commandline `api` application using the default flags and `RunOptions`.
 func Run(ctx context.Context) error {
 	fs := DefaultFlagSet()
 	return RunWithFlagSet(ctx, fs)
 }
 
+// Run will execute the commandline `api` application using `RunOptions` derived from 'fs'.
 func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet) error {
 
 	opts, err := RunOptionsFromFlagSet(fs)
@@ -26,6 +28,7 @@ func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet) error {
 	return RunWithOptions(ctx, opts)
 }
 
+// Run will execute the commandline `api` application using `RunOptions`.
 func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 
 	cl, err := client.NewClient(ctx, opts.APIClientURI)

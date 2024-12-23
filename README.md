@@ -135,6 +135,10 @@ Valid credential labels are:
 | `{AWS_PROFILE_NAME}` | This this profile from the default AWS credentials location. |
 | `{AWS_CREDENTIALS_PATH}:{AWS_PROFILE_NAME}` | This this profile from a user-defined AWS credentials location. |
 
+## Creating a SFO Museum API acccess token
+
+The easiest and fastest way to create a SFO Museum API access token is to use the handy [Create a new access token for yourself](https://api.sfomuseum.org/oauth2/authenticate/like-magic/) webpage.
+
 ## See also
 
 * https://api.sfomuseum.org/

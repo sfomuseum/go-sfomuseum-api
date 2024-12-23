@@ -14,6 +14,7 @@ var api_client_uri string
 var access_token_uri string
 var params multi.KeyValueString
 
+// DefaultFlagSet returns the default flags (flagset) for running the commandline `api` application.
 func DefaultFlagSet() *flag.FlagSet {
 
 	fs := flagset.NewFlagSet("api")
