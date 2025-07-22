@@ -29,8 +29,8 @@ import (
 	_ "gocloud.dev/runtimevar/filevar"
 
 	"github.com/sfomuseum/go-flags/multi"
-	"github.com/sfomuseum/go-sfomuseum-api/client"
-	"github.com/sfomuseum/go-sfomuseum-api/response"
+	"github.com/sfomuseum/go-sfomuseum-api/v2/client"
+	"github.com/sfomuseum/go-sfomuseum-api/v2/response"
 	"github.com/sfomuseum/runtimevar"
 	"github.com/tidwall/gjson"
 )

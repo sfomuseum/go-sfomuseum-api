@@ -7,7 +7,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/sfomuseum/go-sfomuseum-api/client"
+	"github.com/sfomuseum/go-sfomuseum-api/v2/client"
 )
 
 // Run will execute the commandline `api` application using the default flags and `RunOptions`.

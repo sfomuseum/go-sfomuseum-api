@@ -8,7 +8,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/sfomuseum/go-sfomuseum-api/response"
+	"github.com/sfomuseum/go-sfomuseum-api/v2/response"
 )
 
 // API_ENDPOINT is the default endpoint for the api.sfomuseum.org API.

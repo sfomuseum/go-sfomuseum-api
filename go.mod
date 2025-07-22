@@ -1,4 +1,4 @@
-module github.com/sfomuseum/go-sfomuseum-api
+module github.com/sfomuseum/go-sfomuseum-api/v2
 
 go 1.24
 
