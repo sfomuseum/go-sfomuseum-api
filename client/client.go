@@ -21,8 +21,8 @@ type Client interface {
 	ExecuteMethod(context.Context, string, *url.Values) (io.ReadSeekCloser, error)
 }
 
-// ExecuteMethodPaginatedWithClient performs as many paginated API requests for a given method to yield
-// all the result. Each result is passed to the 'cb' callback method for final processing.
+// ExecuteMethodPaginatedWithClient performs as many paginated API requests for a given method. It returns
+// a `iter.Seq2[io.ReadSeeker, error]` instance which can be iterated through to yield each API result.
 func ExecuteMethodPaginatedWithClient(ctx context.Context, cl Client, verb string, args *url.Values) iter.Seq2[io.ReadSeeker, error] {
 
 	return func(yield func(io.ReadSeeker, error) bool) {
