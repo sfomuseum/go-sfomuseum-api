@@ -3,8 +3,8 @@ package client
 import (
 	"context"
 	"flag"
-	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"testing"
@@ -15,6 +15,7 @@ var api_client_uri = flag.String("api-client-uri", "", "A valid sfomuseum/go-sfo
 func TestExecuteMethodPaginated(t *testing.T) {
 
 	if *api_client_uri == "" {
+		slog.Info("-api-client-uri flag is empty, skipping test")
 		t.Skip()
 	}
 
@@ -27,22 +28,21 @@ func TestExecuteMethodPaginated(t *testing.T) {
 	}
 
 	args := &url.Values{}
-	args.Set("method", "sfomuseum.collection.search")
+	args.Set("method", "sfomuseum.collection.objects.search")
 	args.Set("q", "747")
 
-	cb := func(ctx context.Context, r io.ReadSeekCloser, err error) error {
+	for r, err := range ExecuteMethodPaginatedWithClient(ctx, cl, http.MethodGet, args) {
 
 		if err != nil {
-			fmt.Println(err)
+			t.Fatalf("Failed to execute method paginated, %v", err)
 		}
 
-		return nil
-	}
+		_, err = io.Copy(io.Discard, r)
 
-	err = ExecuteMethodPaginatedWithClient(ctx, cl, http.MethodGet, args, cb)
+		if err != nil {
+			t.Fatalf("Failed to read API result, %v", err)
+		}
 
-	if err != nil {
-		t.Fatalf("Failed to execute method paginated, %v", err)
 	}
 
 }

@@ -84,14 +84,14 @@ func ExecuteMethodPaginatedWithClient(ctx context.Context, cl Client, verb strin
 
 				pages = pagination.Pages
 			}
-		}
 
-		page += 1
+			page += 1
 
-		if page <= pages {
-			args.Set("page", strconv.Itoa(page))
-		} else {
-			return
+			if page <= pages {
+				args.Set("page", strconv.Itoa(page))
+			} else {
+				break
+			}
 		}
 	}
 
