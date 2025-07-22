@@ -9,7 +9,7 @@ import (
 	_ "gocloud.dev/runtimevar/constantvar"
 	_ "gocloud.dev/runtimevar/filevar"
 
-	"github.com/sfomuseum/go-sfomuseum-api/app/api"
+	"github.com/sfomuseum/go-sfomuseum-api/v2/app/api"
 )
 
 func main() {

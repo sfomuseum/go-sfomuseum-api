@@ -4,7 +4,7 @@ Go package providing methods for interacting with the [SFO Museum API](https://a
 
 ## Documentation
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/sfomuseum/go-sfomuseum-api.svg)](https://pkg.go.dev/github.com/sfomuseum/go-sfomuseum-api)
+[![Go Reference](https://pkg.go.dev/badge/github.com/sfomuseum/go-sfomuseum-api.svg)](https://pkg.go.dev/github.com/sfomuseum/go-sfomuseum-api/v2)
 
 ## Example
 
@@ -17,7 +17,7 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/sfomuseum/go-sfomuseum-api/client"
+	"github.com/sfomuseum/go-sfomuseum-api/v2/client"
 )
 
 func main() {
