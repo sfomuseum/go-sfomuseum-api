@@ -8,7 +8,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"os"
 	"strconv"
 	"strings"
 
@@ -157,9 +156,6 @@ func (cl *OAuth2Client) executeRequest(ctx context.Context, req *http.Request) (
 		b64_token := base64.StdEncoding.EncodeToString([]byte(cl.access_token))
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", b64_token))
 	}
-
-	r2 := req.Clone(ctx)
-	r2.Write(os.Stdout)
 
 	rsp, err := cl.http_client.Do(req)
 
