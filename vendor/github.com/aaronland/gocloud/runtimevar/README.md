@@ -65,14 +65,14 @@ The following Go Cloud `runtimevar` services are supported by the runtimevar too
 
 ### AWS Parameter Store
 
-It is possible to load runtime variables from AWS Parameter Store using [aaronland/go-aws-auth](https://github.com/aaronland/go-aws-auth) credential strings. For example:
+It is possible to load runtime variables from AWS Parameter Store using [aaronland/go-aws/v3/auth](https://github.com/aaronland/go-aws) credential strings. For example:
 
 ```
 $> go run cmd/runtimevar/main.go 'awsparamstore://hello-world?region=us-west-2&credentials=session'
 hello world
 ```
 
-Valid `aaronland/go-aws-auth` credential strings are:
+Valid `aaronland/go-aws/v3/auth` credential strings are:
 
 Credentials for AWS sessions are defined as string labels. They are:
 
@@ -92,7 +92,7 @@ The following [GoCloud Blob](https://gocloud.dev/howto/blob/) providers are supp
 
 #### s3blob
 
-In addition to the default `s3://` Blob source it is possible to load runtime variables from S3 buckets using [aaronland/go-aws-auth](https://github.com/aaronland/go-aws-auth) credential strings. For example:
+In addition to the default `s3://` Blob source it is possible to load runtime variables from S3 buckets using [aaronland/go-aws/v3/auth](https://github.com/aaronland/go-aws/v3/auth) credential strings. For example:
 
 ```
 $> go run cmd/runtimevar/main.go 'blobvar://hello-world?bucket-uri={BUCKET_URI}'
@@ -105,7 +105,7 @@ Where `{BUCKET_URI}` is a URL-escaped value like this:
 s3blob://your-bucket?region=us-east-1&credentials=session
 ```
 
-Valid `aaronland/go-aws-auth` credential strings are:
+Valid `aaronland/go-aws/v3/auth` credential strings are:
 
 Credentials for AWS sessions are defined as string labels. They are:
 
@@ -120,4 +120,4 @@ Credentials for AWS sessions are defined as string labels. They are:
 ## See also
 
 * https://gocloud.dev/howto/runtimevar
-* https://github.com/aaronland/go-aws-auth
+* https://github.com/aaronland/go-aws

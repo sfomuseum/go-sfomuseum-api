@@ -5,15 +5,15 @@ import (
 	"fmt"
 	"net/url"
 
-	_ "github.com/aaronland/gocloud-blob/s3"
+	_ "github.com/aaronland/gocloud/blob/s3"
 	_ "gocloud.dev/blob/fileblob"
 	_ "gocloud.dev/blob/memblob"
 	_ "gocloud.dev/blob/s3blob"
 	_ "gocloud.dev/runtimevar/constantvar"
 	_ "gocloud.dev/runtimevar/filevar"
 
-	"github.com/aaronland/go-aws-auth"
-	"github.com/aaronland/gocloud-blob/bucket"
+	"github.com/aaronland/go-aws/v3/auth"
+	"github.com/aaronland/gocloud/blob/bucket"
 	gc "gocloud.dev/runtimevar"
 	"gocloud.dev/runtimevar/awsparamstore"
 	"gocloud.dev/runtimevar/blobvar"

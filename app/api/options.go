@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/aaronland/gocloud/runtimevar"
 	"github.com/sfomuseum/go-flags/flagset"
-	"github.com/sfomuseum/runtimevar"
 )
 
 // RunOptions defines options and configurations to execute the commandline `api` application with.
